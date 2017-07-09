@@ -1,4 +1,17 @@
-function ImageMapAug(imageIdL, mapIdL, updateFunctionL) {
+/**
+ * This uses an imageId and an imagemap id.
+ * It will render a canvas over the imagemap.
+ * When something is clicked the underlying imagemap is used to render a figure with fillColors over the image.
+ * The imageareas are augmented with a "toggled" attribute.
+ *
+ * @param imageIdL Id of the image.
+ * @param mapIdL Id of the map.
+ * @param updateFunctionL Your updatefunction, can be null.
+ * @param fillColor a color, preferably with transparency used to highlight an image.
+ * @returns {{}}
+ * @constructor
+ */
+function ImageMapAug(imageIdL, mapIdL, updateFunctionL, fillColor) {
 
     const toggleAttribute = "toggled";
 
@@ -50,7 +63,7 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL) {
     }
 
     /**
-     *
+     * Highlight the selected areas over the image.
      */
     function renderMap() {
 
@@ -95,7 +108,11 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL) {
 
     }
 
-
+    /**
+     * Toggle an area.
+     * @param area
+     * @param imageMapAug
+     */
     function toggle(area, imageMapAug) {
         var newValue = 1;
         if (area.hasAttribute(toggleAttribute)) {
@@ -127,7 +144,6 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL) {
         //bring it back
         canvas.style.display = 'block';
         toggle(area, canvas.imageMapAug);
-
     }
 
 
@@ -135,6 +151,7 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL) {
      * Draw the image according to the coordinates.
      * @param ctx Canvas drawing context.
      * @param coords Coords as from imageMap.
+     * @param fillColor color to fill the image up with.
      */
     function draw(ctx, coords, fillColor) {
         function drawPoly(ctx, coords) {
@@ -215,13 +232,12 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL) {
 
     var obj = {};
     obj.codeAttribute = "code";
-
     obj.imageId = imageIdL;
     obj.mapId = mapIdL;
     obj.updateFunction = updateFunctionL;
     obj.renderMap = renderMap;
     obj.populateAreas = populateAreas;
     obj.getDictionary = getDictionary;
-    obj.fillColor = "rgba(255, 255, 255, 0.2)";
+    obj.fillColor = fillColor;
     return obj;
 }

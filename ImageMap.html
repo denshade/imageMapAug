@@ -30,7 +30,7 @@
     {
         console.info(dictionary);
     }
-    var aug = ImageMapAug("peopleImage", "peopleMap", hello);
+    var aug = ImageMapAug("peopleImage", "peopleMap", hello, "rgba(255, 255, 255, 0.2)");
     aug.populateAreas(["1", "2"]);
     aug.renderMap();
     updateFunction = hello;

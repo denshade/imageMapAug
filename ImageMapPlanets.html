@@ -22,7 +22,7 @@ function hello(dictionary)
     console.info(dictionary);
 }
 
-var aug = ImageMapAug("imageId", "planetMap", hello);
+var aug = ImageMapAug("imageId", "planetMap", hello, "rgba(255, 255, 255, 0.2)");
 aug.populateAreas(["1", "2"]);
 aug.renderMap();
 updateFunction = hello;
