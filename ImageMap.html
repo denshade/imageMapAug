@@ -7,13 +7,6 @@
 </head>
 <body>
 
-<!--img src="planets.gif" id="imageId" width="145" height="126" alt="Planets" usemap="#planetmap">
-<map name="planetmap" id="planetMap">
-    <area shape="rect" code="1" coords="0,0,82,126" href="#" alt="Sun">
-    <area shape="circle" code="2" coords="90,58,3" href="#" alt="Mercury">
-    <area shape="circle" code="3" coords="124,58,8" href="#" alt="Venus">
-</map> -->
-
 <map name="peopleMap" id="peopleMap">
     <area href="/wiki/Samuel_Johnson"  code="1" shape="poly" coords="133,343,124,287,159,224,189,228,195,291,222,311,209,343,209,354,243,362,292,466,250,463" alt="Samuel Johnson – Dictionary writer" title="Samuel Johnson – Dictionary writer" />
     <area href="/wiki/James_Boswell"   code="2" shape="poly" coords="76,224,84,255,43,302,62,400,123,423,121,361,137,344,122,290,111,234,96,225" alt="Boswell – Biographer" title="Boswell – Biographer" />
@@ -40,8 +33,6 @@
     var aug = ImageMapAug("peopleImage", "peopleMap", hello);
     aug.populateAreas(["1", "2"]);
     aug.renderMap();
-//    aug.populateAreas(["1", "2"], "peopleMap", "code"); // ["1", "2", "3"]
-//    aug.renderMap("peopleImage", "peopleMap");
     updateFunction = hello;
 </script>
 

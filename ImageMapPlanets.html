@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ImageMap</title>
+    <script src="ImageMap.js"></script>
+</head>
+<body>
+
+<map name="planetMap" id="planetMap">
+    <area shape="rect" code="1" coords="0,0,82,126" href="#" alt="Sun">
+    <area shape="circle" code="2" coords="90,58,3" href="#" alt="Mercury">
+    <area shape="circle" code="3" coords="124,58,8" href="#" alt="Venus">
+</map>
+<img src="planets.gif" id="imageId" width="145" height="126" alt="Planets" usemap="#planetMap">
+
+
+
+<script>
+function hello(dictionary)
+{
+    console.info(dictionary);
+}
+
+var aug = ImageMapAug("imageId", "planetMap", hello);
+aug.populateAreas(["1", "2"]);
+aug.renderMap();
+updateFunction = hello;
+</script>
+
+</body>
+</html>
