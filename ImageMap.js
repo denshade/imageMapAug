@@ -1,25 +1,24 @@
+
+function ImageMapAug(imageIdL, mapIdL, updateFunctionL ) {
+
 const toggleAttribute = "toggled";
-var imageId = null;
-var mapId = null;
-var codeAttribute = "code";
-//@param codeAttribute Attribute to find the element by. It looks for codeAttribute on the area and toggles those with id in ids.
-var updateFunction;
 /**
  *
  * @param ids array of ids to toggle.
  * @param mapId Name of the map.
  */
-function populateAreas(ids, mapId)
+function populateAreas (ids)
 {
-    var map = document.getElementById(mapId);
+    var map = document.getElementById(this.mapId);
     if (map == null)
     {
-        throw "Found no map elements with id " + mapId;
+        throw "Found no map elements with id " + this.mapId;
     }
     if (ids.constructor !== Array) {
         throw "ids isn't an array " + ids;
     }
     var childNodes = Array.from(map.childNodes);
+    var codeAttribute = this.codeAttribute;
     childNodes.forEach(function (child){
         if (child.nodeType != Node.TEXT_NODE)
         {
@@ -36,30 +35,26 @@ function populateAreas(ids, mapId)
 function getDictionary()
 {
     var dictionary = {};
-    var map = document.getElementById(mapId);
+    var map = document.getElementById(this.mapId);
     if (map == null)
     {
-        throw "Found no map elements with id " + mapId;
+        throw "Found no map elements with id " + this.mapId;
     }
     var childNodes = Array.from(map.childNodes);
+    var codeAttribute = this.codeAttribute;
+
     childNodes.forEach(function (child) {
         if (child.nodeType != Node.TEXT_NODE) {
-            var codeAttribute = child.getAttribute(codeAttribute);
+            var codeAttributeValue = child.getAttribute(codeAttribute);
             if (!child.hasAttribute(toggleAttribute) || child.getAttribute(toggleAttribute) == "0") {
-                dictionary[codeAttribute] = 0;
+                dictionary[codeAttributeValue] = 0;
             } else
             {
-                dictionary[codeAttribute] = 1;
+                dictionary[codeAttributeValue] = 1;
             }
         }
     });
     return dictionary;
-}
-
-function register(imageIdL, mapIdL)
-{
-    imageId = imageIdL;
-    mapId = mapIdL;
 }
 
 /**
@@ -67,9 +62,11 @@ function register(imageIdL, mapIdL)
  * @param imageId
  * @param mapId
  */
-function renderMap(imageId, mapId)
+function renderMap()
 {
-    register(imageId, mapId);
+    var imageId = this.imageId;
+    var mapId = this.mapId;
+
     var image = document.getElementById(imageId);
     if (image == null) throw "Image with id " + imageId + " not found.";
     var canvas = document.getElementById("canvas");
@@ -83,12 +80,13 @@ function renderMap(imageId, mapId)
         canvas.width = image.width;
         canvas.height = image.height;
         canvas.zIndex = 2000;
+        canvas.imageMapAug = this;
     }
     canvas.onclick = clickOnImage;
     document.body.appendChild(canvas);
     var ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    var map = document.getElementById(mapId);
+    var map = document.getElementById(this.mapId);
     if (map == null)
     {
         throw "Found no map elements with id " + mapId;
@@ -108,7 +106,7 @@ function getFillColor() {
     return "rgba(255, 255, 255, 0.2)";
 }
 
-function toggle(area)
+function toggle(area, imageMapAug)
 {
     var newValue = "1";
     if (area.hasAttribute(toggleAttribute))
@@ -118,20 +116,13 @@ function toggle(area)
     }
     area.setAttribute(toggleAttribute, newValue);
     console.info("Toggled " + area + " to " + newValue);
-    renderMap(imageId, mapId);
-    if (updateFunction != null)
+    imageMapAug.renderMap();
+    if (this.updateFunction != null)
     {
-        updateFunction(getDictionary());
+        this.updateFunction(imageMapAug.getDictionary());
     }
 }
 
-/**
- *
- */
-function registerUpdateFunction(updateFunctionL)
-{
-    updateFunction = updateFunctionL;
-}
 
 function clickOnImage(event)
 {
@@ -142,7 +133,7 @@ function clickOnImage(event)
     canvas.style.display = 'none';
     //get the element below
     var area = document.elementFromPoint(event.x, event.y);
-    toggle(area, "toggled");
+    toggle(area, canvas.imageMapAug);
     //bring it back
     canvas.style.display = 'block';
 
@@ -229,3 +220,17 @@ var contains = function(needle) {
 
     return indexOf.call(this, needle) > -1;
 };
+
+var obj = {};
+    obj.codeAttribute = "code";
+
+    obj.imageId = imageIdL;
+    obj.mapId = mapIdL;
+//@param codeAttribute Attribute to find the element by. It looks for codeAttribute on the area and toggles those with id in ids.
+    obj.updateFunction = updateFunctionL;
+
+    obj.renderMap = renderMap;
+    obj.populateAreas = populateAreas;
+    obj.getDictionary = getDictionary;
+return obj;
+}

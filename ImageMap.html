@@ -37,9 +37,11 @@
     {
         console.info(dictionary);
     }
-
-    populateAreas(["1", "2"], "peopleMap", "code"); // ["1", "2", "3"]
-    renderMap("peopleImage", "peopleMap");
+    var aug = ImageMapAug("peopleImage", "peopleMap", hello);
+    aug.populateAreas(["1", "2"]);
+    aug.renderMap();
+//    aug.populateAreas(["1", "2"], "peopleMap", "code"); // ["1", "2", "3"]
+//    aug.renderMap("peopleImage", "peopleMap");
     updateFunction = hello;
 </script>
 
