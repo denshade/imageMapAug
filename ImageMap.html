@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ImageMap</title>
+    <script src="ImageMap.js"></script>
+</head>
+<body>
+
+<!--img src="planets.gif" id="imageId" width="145" height="126" alt="Planets" usemap="#planetmap">
+<map name="planetmap" id="planetMap">
+    <area shape="rect" code="1" coords="0,0,82,126" href="#" alt="Sun">
+    <area shape="circle" code="2" coords="90,58,3" href="#" alt="Mercury">
+    <area shape="circle" code="3" coords="124,58,8" href="#" alt="Venus">
+</map> -->
+
+<map name="peopleMap" id="peopleMap">
+    <area href="/wiki/Samuel_Johnson" code="1" shape="poly" coords="133,343,124,287,159,224,189,228,195,291,222,311,209,343,209,354,243,362,292,466,250,463" alt="Samuel Johnson – Dictionary writer" title="Samuel Johnson – Dictionary writer" />
+    <area href="/wiki/James_Boswell" code="2" shape="poly" coords="76,224,84,255,43,302,62,400,123,423,121,361,137,344,122,290,111,234,96,225" alt="Boswell – Biographer" title="Boswell – Biographer" />
+    <area href="/wiki/Joshua_Reynolds" code="3" shape="poly" coords="190,276,208,240,229,228,247,238,250,258,286,319,282,323,223,323,220,301,200,295" alt="Sir Joshua Reynolds – Host" title="Sir Joshua Reynolds – Host" />
+    <area href="/wiki/David_Garrick" code="4" shape="poly" coords="308,317,311,270,328,261,316,246,320,228,343,227,357,240,377,274,366,284,352,311,319,324" alt="David Garrick – actor" title="David Garrick – actor" />
+    <area href="/wiki/Edmund_Burke" code="5" shape="poly" coords="252,406,313,343,341,343,366,280,383,273,372,251,378,222,409,228,414,280,420,292,390,300,374,360,359,437,306,418,313,391,272,415" alt="Edmund Burke – statesman" title="Edmund Burke – statesman" />
+    <area href="/wiki/Pasquale_Paoli" code="6" shape="rect" coords="418,220,452,287" alt="Pasqual Paoli – Corsican patriot" title="Pasqual Paoli – Corsican patriot" />
+    <area href="/wiki/Charles_Burney" code="7" shape="poly" coords="455,238,484,253,505,303,495,363,501,377,491,443,429,439,423,375,466,352" alt="Charles Burney – music historian" title="Charles Burney – music historian" />
+    <area href="/wiki/Thomas_Warton" code="8" shape="poly" coords="501,279,546,237,567,239,572,308,560,326,537,316,530,300,502,289" alt="Thomas Warton – poet laureate" title="Thomas Warton – poet laureate" />
+    <area href="/wiki/Oliver_Goldsmith" code="9"shape="poly" coords="572,453,591,446,572,373,603,351,562,325,592,288,573,260,573,248,591,243,615,254,637,280,655,334,705,396,656,419,625,382,609,391,613,453" alt="Oliver Goldsmith – writer" title="Oliver Goldsmith – writer" />
+    <area href="/wiki/Joshua_Reynolds" code="10" shape="rect" coords="450,86,584,188" alt="Joshua Reynolds' painting ''The Infant Academy'' (1782)" title="Joshua Reynolds' painting ''The Infant Academy'' (1782)" />
+    <area href="/wiki/Joshua_Reynolds" code="11" shape="rect" coords="286,87,376,191" alt="Joshua Reynolds' painting ''Puck'' (1789)" title="Joshua Reynolds' painting ''Puck'' (1789)" />
+    <area href="/wiki/Joshua_Reynolds" code="12" shape="circle" coords="100,141,20" alt="An unknown portrait" title="An unknown portrait" />
+    <area href="/wiki/Francis_Barber"  code="13" shape="poly" coords="503,192,511,176,532,176,534,200,553,219,554,234,541,236,525,261,506,261,511,220,515,215" alt="servant – poss. Francis Barber" title="servant – poss. Francis Barber" />
+    <area href="/wiki/The_Club_(Literary_Club)" code="13" shape="rect" coords="12,10,702,500" alt="Use button to enlarge or use hyperlinks" title="Use button to enlarge or use hyperlinks" /></map>
+<img id="peopleImage" alt="" src="//upload.wikimedia.org/wikipedia/commons/b/ba/JoshuaReynoldsParty.jpg" width="720" height="523" class="thumbimage" data-file-width="720" data-file-height="523" usemap="#peopleMap" />
+
+
+<script>
+    function hello(dictionary)
+    {
+        console.info(dictionary);
+    }
+
+    populateAreas(["1", "2"], "peopleMap", "code"); // ["1", "2", "3"]
+    renderMap("peopleImage", "peopleMap");
+    updateFunction = hello;
+</script>
+
+</body>
+</html>
