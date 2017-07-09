@@ -1,6 +1,6 @@
 # imageMapAug
 
-This simple plain vanilla javascript library allows you to highlight areas on an imagemap with minimum intervention and dependencies.
+This simple plain vanilla javascript library allows you to highlight multiple areas on an imagemap with minimum intervention and dependencies.
 
 
 ```   
