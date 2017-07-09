@@ -19,9 +19,9 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL) {
         childNodes.forEach(function (child) {
             if (child.nodeType != Node.TEXT_NODE) {
                 if (contains.call(ids, child.getAttribute(codeAttribute))) {
-                    child.setAttribute(toggleAttribute, "1");
+                    child.setAttribute(toggleAttribute, 1);
                 } else {
-                    child.setAttribute(toggleAttribute, "0");
+                    child.setAttribute(toggleAttribute, 0);
                 }
             }
         });
@@ -39,7 +39,7 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL) {
         childNodes.forEach(function (child) {
             if (child.nodeType != Node.TEXT_NODE) {
                 var codeAttributeValue = child.getAttribute(codeAttribute);
-                if (!child.hasAttribute(toggleAttribute) || child.getAttribute(toggleAttribute) == "0") {
+                if (!child.hasAttribute(toggleAttribute) || child.getAttribute(toggleAttribute) == 0) {
                     dictionary[codeAttributeValue] = 0;
                 } else {
                     dictionary[codeAttributeValue] = 1;
@@ -53,13 +53,8 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL) {
      *
      */
     function renderMap() {
-        var imageId = this.imageId;
-        var mapId = this.mapId;
 
-        var image = document.getElementById(imageId);
-        if (image == null) throw "Image with id " + imageId + " not found.";
-        var canvas = document.getElementById("canvas");
-        if (canvas == null) {
+        function createDrawingCanvas() {
             canvas = document.createElement("canvas");
             canvas.id = "canvas";
             canvas.style.position = "absolute";
@@ -70,7 +65,17 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL) {
             canvas.zIndex = 2000;
             canvas.imageMapAug = this;
         }
-        canvas.onclick = clickOnImage;
+
+        var imageId = this.imageId;
+        var mapId = this.mapId;
+
+        var image = document.getElementById(imageId);
+        if (image == null) throw "Image with id " + imageId + " not found.";
+        var canvas = document.getElementById("canvas");
+        if (canvas == null) {
+            createDrawingCanvas.call(this);
+            canvas.onclick = clickOnImage;
+        }
         document.body.appendChild(canvas);
         var ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -82,7 +87,7 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL) {
         var fillColor  = this.fillColor;
         childNodes.forEach(function (child) {
             if (child.nodeType != Node.TEXT_NODE) {
-                if (child.getAttribute(toggleAttribute) == "1") {
+                if (child.getAttribute(toggleAttribute) == 1) {
                     draw(ctx, child.getAttribute("coords").split(","), fillColor);
                 }
             }
@@ -90,15 +95,12 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL) {
 
     }
 
-    function getFillColor() {
-        return this.fillColor;
-    }
 
     function toggle(area, imageMapAug) {
-        var newValue = "1";
+        var newValue = 1;
         if (area.hasAttribute(toggleAttribute)) {
             var val = area.getAttribute(toggleAttribute);
-            if (val == "1") newValue = "0";
+            if (val == 1) newValue = 0;
         }
         area.setAttribute(toggleAttribute, newValue);
         console.info("Toggled " + area + " to " + newValue);
@@ -109,9 +111,9 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL) {
     }
 
     /**
-     *  We find the area map that is behind the canvas. The trick is to hide the canvas quickly.
-     *  Find the element at x, y and render the map again.
-     * @param event
+     * We must find the area map that is behind the canvas. The trick is to hide the canvas quickly.
+     * Find the element at x, y and render the map again.
+     * @param event A click event.
      */
     function clickOnImage(event) {
         // find the element at x,y
@@ -135,7 +137,6 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL) {
      * @param coords Coords as from imageMap.
      */
     function draw(ctx, coords, fillColor) {
-        ctx.fillStyle = fillColor;
         function drawPoly(ctx, coords) {
             ctx.beginPath();
             ctx.moveTo(coords[0], coords[1]);
@@ -167,6 +168,8 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL) {
         function drawRectangle(ctx, coords) {
             ctx.fillRect(coords[0], coords[1], coords[2] - coords[0], coords[3] - coords[1]);
         }
+
+        ctx.fillStyle = fillColor;
 
         if (coords.length < 3) {
             throw "Unexpectedly low coordinates: " + coords.length + " " + coords;
