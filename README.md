@@ -26,4 +26,4 @@ It uses the 'code' as identifying attribute to find the image map area and toggl
 
 # Your callback
 Your callback will be called whenever the user changes a selected element. 
-You'll receive a dictionary with key, values: <the code of the area> : <value: 0 | 1 > depending on whether the element was selected. 
+You'll receive a dictionary with key, values: « the code of the area » : « value: 0 | 1 » depending on whether the element was selected. 
