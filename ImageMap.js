@@ -177,7 +177,7 @@ function draw(ctx, coords)
      * @param coords int[]
      */
     function drawRectangle(ctx, coords) {
-        ctx.fillRect(coords[0], coords[1], coords[2], coords[3]);
+        ctx.fillRect(coords[0], coords[1], coords[2] - coords[0], coords[3] - coords[1]);
     }
 
     if (coords.length == 4)
