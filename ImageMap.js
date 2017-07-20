@@ -139,8 +139,8 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL, fillColor) {
         area.setAttribute(toggleAttribute, newValue);
         console.info("Toggled " + area + " to " + newValue);
         imageMapAug.renderMap();
-        if (this.updateFunction != null) {
-            this.updateFunction(imageMapAug.getDictionary());
+        if (imageMapAug.updateFunction != null) {
+            imageMapAug.updateFunction(imageMapAug.getDictionary());
         }
     }
 
