@@ -21,7 +21,7 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL, fillColor) {
      */
     function populateAreas(ids) {
         var map = document.getElementById(this.mapId);
-        if (map == null) {
+        if (map === null) {
             throw "Found no map elements with id " + this.mapId;
         }
         if (ids.constructor !== Array) {
@@ -30,7 +30,7 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL, fillColor) {
         var childNodes = Array.from(map.childNodes);
         var codeAttribute = this.codeAttribute;
         childNodes.forEach(function (child) {
-            if (child.nodeType != Node.TEXT_NODE) {
+            if (child.nodeType !== Node.TEXT_NODE && child.nodeType !== Node.COMMENT_NODE) {
                 if (contains.call(ids, child.getAttribute(codeAttribute))) {
                     child.setAttribute(toggleAttribute, 1);
                 } else {
@@ -43,14 +43,14 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL, fillColor) {
     function getDictionary() {
         var dictionary = {};
         var map = document.getElementById(this.mapId);
-        if (map == null) {
+        if (map === null) {
             throw "Found no map elements with id " + this.mapId;
         }
         var childNodes = Array.from(map.childNodes);
         var codeAttribute = this.codeAttribute;
 
         childNodes.forEach(function (child) {
-            if (child.nodeType != Node.TEXT_NODE) {
+            if (child.nodeType !== Node.TEXT_NODE  && child.nodeType !== Node.COMMENT_NODE) {
                 var codeAttributeValue = child.getAttribute(codeAttribute);
                 if (!child.hasAttribute(toggleAttribute) || child.getAttribute(toggleAttribute) == 0) {
                     dictionary[codeAttributeValue] = 0;
@@ -67,14 +67,31 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL, fillColor) {
      */
     function renderMap() {
 
+        function getPos(el) {
+            // yay readability
+            for (var lx=0, ly=0;
+                 el != null;
+                 lx += el.offsetLeft, ly += el.offsetTop, el = el.offsetParent);
+            return {x: lx,y: ly};
+        }
+
         function createDrawingCanvas() {
             canvas = document.createElement("canvas");
             canvas.id = "canvas";
             canvas.style.position = "absolute";
-            canvas.style.left = image.offsetLeft + "px";
-            canvas.style.top = image.offsetTop + "px";
-            canvas.width = image.width;
-            canvas.height = image.height;
+
+            var checkTime = 1000; //100 ms interval
+            var check = setInterval(function() {
+                var position = getPos(image);
+                if (canvas.style.left !== position.x+"px" || canvas.style.top !== position.y+"px")
+                {
+                    canvas.style.left = position.x + "px";
+                    canvas.style.top = position.y + "px";
+                    canvas.width = image.width;
+                    canvas.height = image.height;
+                    renderMap.call(canvas.imageMapAug);
+                }
+            }, checkTime);
             canvas.zIndex = 2000;
             canvas.imageMapAug = this;
         }
@@ -83,23 +100,23 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL, fillColor) {
         var mapId = this.mapId;
 
         var image = document.getElementById(imageId);
-        if (image == null) throw "Image with id " + imageId + " not found.";
+        if (image === null) throw "Image with id " + imageId + " not found.";
         var canvas = document.getElementById("canvas");
-        if (canvas == null) {
+        if (canvas === null) {
             createDrawingCanvas.call(this);
             canvas.onclick = clickOnImage;
+            document.body.appendChild(canvas);
         }
-        document.body.appendChild(canvas);
         var ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         var map = document.getElementById(this.mapId);
-        if (map == null) {
+        if (map === null) {
             throw "Found no map elements with id " + mapId;
         }
         var childNodes = Array.from(map.childNodes);
         var fillColor  = this.fillColor;
         childNodes.forEach(function (child) {
-            if (child.nodeType != Node.TEXT_NODE) {
+            if (child.nodeType !== Node.TEXT_NODE  && child.nodeType !== Node.COMMENT_NODE) {
                 if (child.getAttribute(toggleAttribute) == 1) {
                     draw(ctx, child.getAttribute("coords").split(","), fillColor);
                 }
@@ -191,10 +208,10 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL, fillColor) {
         if (coords.length < 3) {
             throw "Unexpectedly low coordinates: " + coords.length + " " + coords;
         }
-        if (coords.length == 4) {
+        if (coords.length === 4) {
             drawRectangle(ctx, coords);
         }
-        else if (coords.length == 3) {
+        else if (coords.length === 3) {
             drawCircle(ctx, coords);
         } else {
             drawPoly(ctx, coords);
