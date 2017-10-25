@@ -83,7 +83,7 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL, fillColor) {
 
             var checkTime = 100; //100 ms interval
             var check = setInterval(function() {
-                if (image.offsetWidth === 0) 
+                if (image.offsetWidth === 0) // The image is hidden, so don't bother rendering a canvas.
                 {
                     canvas.style.left = "-1px";
                     canvas.style.top = "-1px";
