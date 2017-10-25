@@ -77,20 +77,32 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL, fillColor) {
 
         function createDrawingCanvas() {
             canvas = document.createElement("canvas");
-            canvas.id = "canvas";
+            canvas.id = this.imageId + "canvas";
+            console.log("Created a canvas with id: " + canvas.id);
             canvas.style.position = "absolute";
 
-            var checkTime = 1000; //100 ms interval
+            var checkTime = 100; //100 ms interval
             var check = setInterval(function() {
-                var position = getPos(image);
-                if (canvas.style.left !== position.x+"px" || canvas.style.top !== position.y+"px")
+                if (image.offsetWidth === 0) 
                 {
-                    canvas.style.left = position.x + "px";
-                    canvas.style.top = position.y + "px";
-                    canvas.width = image.width;
-                    canvas.height = image.height;
-                    renderMap.call(canvas.imageMapAug);
+                    canvas.style.left = "-1px";
+                    canvas.style.top = "-1px";
+                    canvas.width = "0px";
+                    canvas.height = "0px";
+                    
+                } else 
+                {   
+                    var position = getPos(image);
+                    if (canvas.style.left !== position.x+"px" || canvas.style.top !== position.y+"px")
+                    {
+                        canvas.style.left = position.x + "px";
+                        canvas.style.top = position.y + "px";
+                        canvas.width = image.width;
+                        canvas.height = image.height;
+                        renderMap.call(canvas.imageMapAug);
+                    }
                 }
+
             }, checkTime);
             canvas.zIndex = 2000;
             canvas.imageMapAug = this;
@@ -101,7 +113,7 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL, fillColor) {
 
         var image = document.getElementById(imageId);
         if (image === null) throw "Image with id " + imageId + " not found.";
-        var canvas = document.getElementById("canvas");
+        var canvas = document.getElementById(imageId + "canvas");
         if (canvas === null) {
             createDrawingCanvas.call(this);
             canvas.onclick = clickOnImage;
@@ -152,7 +164,7 @@ function ImageMapAug(imageIdL, mapIdL, updateFunctionL, fillColor) {
     function clickOnImage(event) {
         // find the element at x,y
         // toggle it.
-        var canvas = document.getElementById("canvas");
+        var canvas = document.elementFromPoint(event.x, event.y);
         //temporarily hide the element.
         canvas.style.display = 'none';
         //get the element below
